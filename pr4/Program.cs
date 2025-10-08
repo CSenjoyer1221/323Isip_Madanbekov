@@ -178,7 +178,27 @@ namespace LibraryManagement
             bool exit = false;
 
             Console.WriteLine("=== СИСТЕМАА УЧЕТА БИБЛИОТЕКИ ===");
+
+            while (!exit)
+            {
+                DisplayMenu();
+                var choice = Console.ReadLine();
+                switch (choice)
+                {
+                    case "1": AddBookCommand(library); break;
+                    case "2": RemoveBookCommand(library); break;
+                    case "3": SearchBooksCommand(library); break;
+                    case "4": SortBooksCommand(library); break;
+                    case "5": library.FindMostExpensiveAndCheapestBooks(); break;
+                    case "6": library.GroupBooksByAuthor(); break;
+                    case "7": library.DisplayAllBooks(); break;
+                    case "0": exit = true;
+                        Console.WriteLine("Выход из программы..."); break;
+                    default: Console.WriteLine("Неверная команда. Попробуйте снова"); break;
+                }
+            }
         }
+
     }
 
 }
