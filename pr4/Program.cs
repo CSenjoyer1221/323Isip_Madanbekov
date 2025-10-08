@@ -125,6 +125,20 @@ namespace LibraryManagement
             }
         }
 
+        public void FindMostExpensiveAndCheapestBooks()
+        {
+            if (!books.Any())
+            {
+                Console.WriteLine("\nВ библиотеке нет книг");
+                return;
+            }
 
+            var mostExpensive = books.OrderByDescending(b => b.Price).First();
+            var mostCheapest = books.OrderBy(b => b.Price).First();
+
+            Console.WriteLine("\nСамая дорогая книга: ", mostExpensive);
+            Console.WriteLine("\nСамая дешевая книга: ", mostCheapest);
+        }
     }
+
 }
