@@ -170,6 +170,15 @@ namespace LibraryManagement
         }
     }
 
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var library = new Library();
+            bool exit = false;
 
+            Console.WriteLine("=== СИСТЕМАА УЧЕТА БИБЛИОТЕКИ ===");
+        }
+    }
 
 }
