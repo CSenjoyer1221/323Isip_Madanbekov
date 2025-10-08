@@ -40,4 +40,18 @@ namespace LibraryManagement
         }
     }
 
+    public class Library
+    {
+        private List<Book> books = new List<Book>();
+        private int nextId = 1;
+
+        public void AddBook(string title, string author, Genre genre, int year, decimal price)
+        {
+            var book = new Book(nextId++, title, author, genre, year, price);
+            books.Add(book);
+            Console.WriteLine($"\nКнига добавлена: {book}");
+        }
+
+
+    }
 }
