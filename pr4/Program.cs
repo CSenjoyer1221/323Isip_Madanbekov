@@ -52,6 +52,57 @@ namespace LibraryManagement
             Console.WriteLine($"\nКнига добавлена: {book}");
         }
 
+        public void RemoveBook(int id)
+        {
+            var book = FindBookById(id);
+            if (book != null)
+            {
+                books.Remove(book);
+                Console.WriteLine($"\nКнига c ID {id} удалена");
+            }
+            else
+            {
+                Console.WriteLine($"\nКнига с ID {id} не найдена");
+            }
+        }
+        private Book FindBookById(int id)
+        {
+            return books.FirstOrDefault(b => b.Id == id);
+        }
+
+        public void FindBookByTitle(string title)
+        {
+            var foundBooks = books.Where(b => b.Title.Contains(title, StringComparison.OrdinalIgnoreCase)).ToList();
+            DisplaySearchResults(foundBooks, $"по названию \"{title}\"");
+        }
+
+        public void FindBooksByAuthor(string author)
+        {
+            var foundBooks = books.Where(b => b.Author.Contains(author, StringComparison.OrdinalIgnoreCase)).ToList();
+            DisplaySearchResults(foundBooks, $"по автору \"{author}\"");
+        }
+
+        public void FindBooksByGenre(Genre genre)
+        {
+            var foundBooks = books.Where(b => b.Genre == genre).ToList();
+            DisplaySearchResults(foundBooks, $"по жанру \"{genre}\" ");
+        }
+
+        private void DisplaySearchResults(List<Book> foundBooks, string searchCriteria)
+        {
+            if (foundBooks.Any())
+            {
+                Console.WriteLine($"\nНайдено книг {searchCriteria}: {foundBooks.Count}");
+                foreach (var book in foundBooks)
+                {
+                    Console.WriteLine(book);
+                }
+            }
+            else
+            {
+                Console.WriteLine($"\nКниги {searchCriteria} не найдены");
+            }
+        }
 
     }
 }
