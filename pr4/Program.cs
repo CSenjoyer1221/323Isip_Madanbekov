@@ -70,7 +70,7 @@ namespace LibraryManagement
             return books.FirstOrDefault(b => b.Id == id);
         }
 
-        public void FindBookByTitle(string title)
+        public void FindBooksByTitle(string title)
         {
             var foundBooks = books.Where(b => b.Title.Contains(title, StringComparison.OrdinalIgnoreCase)).ToList();
             DisplaySearchResults(foundBooks, $"по названию \"{title}\"");
@@ -110,7 +110,7 @@ namespace LibraryManagement
             DisplaySortedBooks(sortedBooks, "по названию");
         }
 
-        public void SortByYear()
+        public void SortBooksByYear()
         {
             var sortedBooks = books.OrderBy(b => b.Year).ToList();
             DisplaySortedBooks(sortedBooks, "по году издания");
@@ -185,14 +185,29 @@ namespace LibraryManagement
                 var choice = Console.ReadLine();
                 switch (choice)
                 {
-                    case "1": AddBookCommand(library); break;
-                    case "2": RemoveBookCommand(library); break;
-                    case "3": SearchBooksCommand(library); break;
-                    case "4": SortBooksCommand(library); break;
-                    case "5": library.FindMostExpensiveAndCheapestBooks(); break;
-                    case "6": library.GroupBooksByAuthor(); break;
-                    case "7": library.DisplayAllBooks(); break;
-                    case "0": exit = true;
+                    case "1": 
+                        AddBookCommand(library); 
+                        break;
+                    case "2": 
+                        RemoveBookCommand(library); 
+                        break;
+                    case "3": 
+                        SearchBooksCommand(library); 
+                        break;
+                    case "4": 
+                        SortBooksCommand(library); 
+                        break;
+                    case "5": 
+                        library.FindMostExpensiveAndCheapestBooks(); 
+                        break;
+                    case "6": 
+                        library.GroupBooksByAuthor(); 
+                        break;
+                    case "7": 
+                        library.DisplayAllBooks(); 
+                        break;
+                    case "0": 
+                        exit = true;
                         Console.WriteLine("Выход из программы..."); break;
                     default: Console.WriteLine("Неверная команда. Попробуйте снова"); break;
                 }
@@ -211,8 +226,111 @@ namespace LibraryManagement
                 Console.WriteLine("0. Выход");
                 Console.Write("Выберите команду: ");
             }
-        }
+            
+            static void AddBookCommand(Library library)
+            {
+                Console.WriteLine("\n=== Добавление книги ===");
+                Console.Write("Введите название книги: ");
+                var title = Console.ReadLine();
+                Console.WriteLine("\nВведите автора");
+                var author = Console.ReadLine();
+                Console.WriteLine("Доступные жанры:");
+                var genres = Enum.GetValues(typeof(Genre));
+                for (int i = 0; i < genres.Length; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {genres.GetValue(i)}");
+                }
+                Console.WriteLine("Выберите жанр (номер): ");
+                if (int.TryParse(Console.ReadLine(), out var genreIndex) && genreIndex >= 1 && genreIndex <= genres.Length)
+                {
+                    var genre = (Genre)(genreIndex - 1);
+                    Console.WriteLine("Введите год издания ");
+                    if (int.TryParse(Console.ReadLine(), out int year))
+                    {
+                        Console.Write("Введите цену: ");
+                        if (decimal.TryParse(Console.ReadLine(), out decimal price))
+                        {
+                            library.AddBook(title, author, genre, year, price);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Неверный формат цены");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Неверный формат года");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Неверный формат жанра");
+                }
+            }
+            static void RemoveBookCommand(Library library)
+            {
+                Console.Write("\nВведите ID книги для удаления");
+                if (int.TryParse(Console.ReadLine(), out int id))
+                {
+                    library.RemoveBook(id);
+                }
+                else
+                {
+                    Console.WriteLine("Неверный формат ID");
+                }
+            }
+            static void SearchBooksCommand(Library library)
+            {
+                Console.WriteLine("\n=== ПОИСК КНИГ ===");
+                Console.WriteLine("1. По названию");
+                Console.WriteLine("2. По автору");
+                Console.WriteLine("3. По жанру");
+                Console.Write("Введите тип поиска");
+                
+                var searchChoice = Console.ReadLine();
+                switch (searchChoice)
+                    {
+                    case "1": Console.WriteLine("Введите название для поиска: ");
+                        var title = Console.ReadLine();
+                        library.FindBooksByTitle(title); break;
+                    case "2": 
+                        Console.WriteLine("Введите автора для поиска: ");
+                        var author = Console.ReadLine();
+                        library.FindBooksByAuthor(author); 
+                        break;
+                    case "3": 
+                        Console.WriteLine("Доступные жанры");
+                        var genres = Enum.GetValues(typeof(Genre));
+                        for (int i = 0; i < genres.Length; i++)
+                        {
+                            Console.WriteLine($"{i + 1}, {genres.GetValue(i)}");
+                            Console.WriteLine("Выберите жанр (номер): ");
+                        }
+                        break;    
+                    }
+                }
+            static void SortBooksCommand(Library library)
+            {
+                Console.WriteLine("\n=== СОРТИРОВКА КНИГ ===");
+                Console.WriteLine("1. По названию");
+                Console.WriteLine("2. По году издания");
+                Console.WriteLine("Выберите тип сортировки: ");
 
+                var sortChoice = Console.ReadLine();
+                switch (sortChoice)
+                {
+                    case "1":
+                        library.SortBooksByTitle();
+                        break;
+                    case "2":
+                        library.SortBooksByYear();
+                        break;
+                    default:
+                        Console.WriteLine("Неверный выбор");
+                        break;
+                }
+            }
+        }
     }
 
 }
