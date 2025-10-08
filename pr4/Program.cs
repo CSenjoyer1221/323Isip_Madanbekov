@@ -139,6 +139,37 @@ namespace LibraryManagement
             Console.WriteLine("\nСамая дорогая книга: ", mostExpensive);
             Console.WriteLine("\nСамая дешевая книга: ", mostCheapest);
         }
+
+        public void GroupBooksByAuthor()
+        {
+            var groupedBooks = books.GroupBy(b => b.Author).OrderByDescending(g => g.Count());
+            Console.WriteLine("\nКоличество книг по авторам: ");
+            foreach (var group in groupedBooks)
+            {
+                Console.WriteLine($"Автор: {group.Key}, Количество книг: {group.Count()}");
+                foreach (var book in group)
+                {
+                    Console.WriteLine($"-{ book.Title} ({ book.Year})");
+                }
+                Console.WriteLine();
+            }
+        }
+
+        public void DisplayAllBooks()
+        {
+            if (!books.Any())
+            {
+                Console.WriteLine("\nВ библиотеке нет книг");
+                return;
+            }
+            Console.WriteLine("\nВсе книги в библиотеке: ");
+            foreach (var book in books)
+            {
+                Console.WriteLine(book);
+            }
+        }
     }
+
+
 
 }
