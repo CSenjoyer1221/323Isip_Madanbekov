@@ -197,6 +197,20 @@ namespace LibraryManagement
                     default: Console.WriteLine("Неверная команда. Попробуйте снова"); break;
                 }
             }
+
+            static void DisplayMenu()
+            {
+                Console.WriteLine("\n=== МЕНЮ ===");
+                Console.WriteLine("1. Добавить книгу");
+                Console.WriteLine("2. Удалить книгу по ID");
+                Console.WriteLine("3. Найти книги");
+                Console.WriteLine("4. Отсортировать книги");
+                Console.WriteLine("5. Самая дорогая/дешевая книга");
+                Console.WriteLine("6. Группировать по авторам");
+                Console.WriteLine("7. Показать все книги");
+                Console.WriteLine("0. Выход");
+                Console.Write("Выберите команду: ");
+            }
         }
 
     }
