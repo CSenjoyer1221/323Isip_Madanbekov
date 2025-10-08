@@ -103,6 +103,28 @@ namespace LibraryManagement
                 Console.WriteLine($"\nКниги {searchCriteria} не найдены");
             }
         }
+        
+        public void SortBooksByTitle()
+        {
+            var sortedBooks = books.OrderBy(b => b.Title).ToList();
+            DisplaySortedBooks(sortedBooks, "по названию");
+        }
+
+        public void SortByYear()
+        {
+            var sortedBooks = books.OrderBy(b => b.Year).ToList();
+            DisplaySortedBooks(sortedBooks, "по году издания");
+        }
+
+        private void DisplaySortedBooks(List<Book> sortedBooks, string sortCriteria)
+        {
+            Console.WriteLine($"\nКниги отсортированы {sortCriteria}:");
+            foreach (var book in sortedBooks)
+            {
+                Console.WriteLine(book);
+            }
+        }
+
 
     }
 }
